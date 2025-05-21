@@ -1,7 +1,50 @@
 {
+  "title": "Calculateur IP et Sous-réseaux",
+  "language": "Langue",
+  "ipAddress": "Adresse IP",
+  "subnetMask": "Masque de Sous-réseau",
+  "cidr": "CIDR",
+  "calculate": "Calculer",
+  "results": {
+    "networkAddress": "Adresse de Réseau",
+    "broadcastAddress": "Adresse de Diffusion",
+    "firstValidHost": "Premier Hôte Valide",
+    "lastValidHost": "Dernier Hôte Valide",
+    "totalHosts": "Total des Hôtes",
+    "usableHosts": "Hôtes Utilisables",
+    "subnetBits": "Bits de Sous-réseau",
+    "hostBits": "Bits d'Hôte",
+    "binarySubnetMask": "Masque de Sous-réseau (binaire)",
+    "binaryIpAddress": "Adresse IP (binaire)",
+    "binaryNetworkAddress": "Adresse de Réseau (binaire)",
+    "binaryRepresentation": "Représentation Binaire",
+    "wildcardMask": "Masque Wildcard"
+  },
+  "subnetting": {
+    "title": "Division de Sous-réseau",
+    "subnetCount": "Nombre de Sous-réseaux",
+    "hostsPerSubnet": "Hôtes par Sous-réseau",
+    "generate": "Générer des Sous-réseaux",
+    "subnetList": "Liste des Sous-réseaux",
+    "subnet": "Sous-réseau",
+    "range": "Plage",
+    "usable": "Utilisable"
+  },
+  "validation": {
+    "invalidIp": "Adresse IP invalide",
+    "ipRequired": "L'adresse IP est requise",
+    "enterValidIp": "Veuillez entrer une adresse IP valide",
+    "minimum": "Minimum: {value}",
+    "maximum": "Maximum: {value}"
+  },
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
+  },
   "networkTools": {
     "title": "Outils Réseau",
-    "disclaimer": "Remarque : Ceci est une implémentation côté client limitée par l'environnement du navigateur. Pour un diagnostic réseau complet et précis, il est recommandé d'implémenter ces fonctionnalités via un backend avec les privilèges nécessaires.",
+    "disclaimer": "",
     "legalWarning": "Important : Le scan de ports sur des systèmes qui ne vous appartiennent pas peut être illégal dans certaines juridictions. Utilisez ces outils uniquement sur vos propres systèmes ou avec une autorisation explicite.",
     "ping": {
       "title": "Ping",
@@ -17,6 +60,7 @@
       "hostNotFound": "Hôte introuvable ou n'a pas répondu",
       "history": "Historique des Pings",
       "timestamp": "Heure",
+      "networkInfo": "Informations Réseau",
       "ipSweep": "Balayage IP",
       "ipRange": "Plage IP",
       "startIp": "IP de Début",

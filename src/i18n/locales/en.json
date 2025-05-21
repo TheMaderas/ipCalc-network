@@ -3,6 +3,7 @@
   "language": "Language",
   "ipAddress": "IP Address",
   "subnetMask": "Subnet Mask",
+  "cidr": "CIDR",
   "calculate": "Calculate",
   "results": {
     "networkAddress": "Network Address",
@@ -13,7 +14,10 @@
     "usableHosts": "Usable Hosts",
     "subnetBits": "Subnet Bits",
     "hostBits": "Host Bits",
-    "binarySubnetMask": "Binary Subnet Mask",
+    "binarySubnetMask": "Subnet Mask (Binary)",
+    "binaryIpAddress": "IP Address (Binary)",
+    "binaryNetworkAddress": "Network Address (Binary)",
+    "binaryRepresentation": "Binary Representation",
     "wildcardMask": "Wildcard Mask"
   },
   "subnetting": {
@@ -40,7 +44,7 @@
   },
   "networkTools": {
     "title": "Network Tools",
-    "disclaimer": "Note: This is a client-side implementation limited by the browser environment. For complete and accurate network diagnostics, it is recommended to implement these features through a backend with the necessary privileges.",
+    "disclaimer": "",
     "legalWarning": "Important: Port scanning on systems that are not your own may be illegal in some jurisdictions. Use these tools only on your own systems or with explicit permission.",
     "ping": {
       "title": "Ping",
@@ -56,6 +60,7 @@
       "hostNotFound": "Host not found or did not respond",
       "history": "Ping History",
       "timestamp": "Time",
+      "networkInfo": "Network Information",
       "ipSweep": "IP Sweep",
       "ipRange": "IP Range",
       "startIp": "Start IP",

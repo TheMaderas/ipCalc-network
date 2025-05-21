@@ -1,5 +1,5 @@
 /**
- * Utilitários para cálculo de IP e subredes
+ * Utilities for IP and subnet calculations
  */
 
 export interface IPResult {
@@ -30,7 +30,7 @@ export interface Subnet {
 }
 
 /**
- * Valida se o endereço IP é válido
+ * Validates if the IP address is valid
  */
 export const isValidIP = (ip: string): boolean => {
   const pattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
@@ -38,7 +38,7 @@ export const isValidIP = (ip: string): boolean => {
 };
 
 /**
- * Converte um endereço IP para um número inteiro de 32 bits
+ * Converts an IP address to a 32-bit integer
  */
 export const ipToInt = (ip: string): number => {
   const parts = ip.split('.');
@@ -49,7 +49,7 @@ export const ipToInt = (ip: string): number => {
 };
 
 /**
- * Converte um número inteiro de 32 bits para um endereço IP
+ * Converts a 32-bit integer to an IP address
  */
 export const intToIp = (int: number): string => {
   return [
@@ -61,7 +61,7 @@ export const intToIp = (int: number): string => {
 };
 
 /**
- * Converte CIDR para máscara de sub-rede
+ * Converts CIDR to subnet mask
  */
 export const cidrToSubnetMask = (cidr: number): string => {
   const mask = ~(0xffffffff >>> cidr) >>> 0;
@@ -69,7 +69,7 @@ export const cidrToSubnetMask = (cidr: number): string => {
 };
 
 /**
- * Converte máscara de sub-rede para CIDR
+ * Converts subnet mask to CIDR
  */
 export const subnetMaskToCidr = (subnetMask: string): number => {
   const mask = ipToInt(subnetMask);
@@ -83,25 +83,25 @@ export const subnetMaskToCidr = (subnetMask: string): number => {
 };
 
 /**
- * Converte um número para binário com preenchimento de zeros à esquerda
+ * Converts a number to binary with left-side zero padding
  */
 export const toBinary = (num: number, padding = 8): string => {
   return num.toString(2).padStart(padding, '0');
 };
 
 /**
- * Converte endereço IP para formato binário formatado com espaços
+ * Converts IP address to binary format with dot separators
  */
 export const ipToBinary = (ip: string): string => {
   return ip
     .split('.')
     .map(octet => toBinary(parseInt(octet, 10), 8))
-    .join(' ');
+    .join('.');
 };
 
 /**
- * Converte endereço IP para formato binário sem pontos ou espaços
- * Útil para operações em bits
+ * Converts IP address to binary format without dots or spaces
+ * Useful for bit operations
  */
 export const ipToBinaryRaw = (ip: string): string => {
   return ip
@@ -111,7 +111,7 @@ export const ipToBinaryRaw = (ip: string): string => {
 };
 
 /**
- * Gera uma representação visual da operação AND entre um IP e a máscara de subrede
+ * Generates a visual representation of the AND operation between an IP and subnet mask
  */
 export const generateBinaryAndOperation = (ip: string, subnetMask: string): { 
   ipBits: string, 
@@ -134,7 +134,7 @@ export const generateBinaryAndOperation = (ip: string, subnetMask: string): {
 };
 
 /**
- * Calcula o endereço de rede
+ * Calculates the network address
  */
 export const calculateNetworkAddress = (ip: string, subnetMask: string): string => {
   const ipInt = ipToInt(ip);
@@ -144,7 +144,7 @@ export const calculateNetworkAddress = (ip: string, subnetMask: string): string 
 };
 
 /**
- * Calcula o endereço de broadcast
+ * Calculates the broadcast address
  */
 export const calculateBroadcastAddress = (ip: string, subnetMask: string): string => {
   const ipInt = ipToInt(ip);
@@ -156,7 +156,7 @@ export const calculateBroadcastAddress = (ip: string, subnetMask: string): strin
 };
 
 /**
- * Calcula o primeiro host válido
+ * Calculates the first valid host
  */
 export const calculateFirstHost = (networkAddress: string): string => {
   const networkInt = ipToInt(networkAddress);
@@ -164,7 +164,7 @@ export const calculateFirstHost = (networkAddress: string): string => {
 };
 
 /**
- * Calcula o último host válido
+ * Calculates the last valid host
  */
 export const calculateLastHost = (broadcastAddress: string): string => {
   const broadcastInt = ipToInt(broadcastAddress);
@@ -172,7 +172,7 @@ export const calculateLastHost = (broadcastAddress: string): string => {
 };
 
 /**
- * Calcula a máscara wildcard
+ * Calculates the wildcard mask
  */
 export const calculateWildcardMask = (subnetMask: string): string => {
   const maskInt = ipToInt(subnetMask);
@@ -181,7 +181,7 @@ export const calculateWildcardMask = (subnetMask: string): string => {
 };
 
 /**
- * Calcula todas as informações de um endereço IP e máscara de sub-rede
+ * Calculates all information for an IP address and subnet mask
  */
 export const calculateIPInfo = (ip: string, cidr: number): IPResult => {
   const subnetMask = cidrToSubnetMask(cidr);
@@ -215,12 +215,12 @@ export const calculateIPInfo = (ip: string, cidr: number): IPResult => {
 };
 
 /**
- * Gera sub-redes a partir de um endereço IP e máscara de sub-rede
+ * Generates subnets from an IP address and subnet mask
  */
 export const generateSubnets = (ip: string, cidr: number, subnetCount: number): Subnet[] => {
-  // Calcula o novo CIDR para as sub-redes
+  // Calculates the new CIDR for the subnets
   const bitsNeeded = Math.ceil(Math.log2(subnetCount));
-  const newCidr = Math.min(cidr + bitsNeeded, 30); // Limitamos a 30 para permitir pelo menos 2 hosts
+  const newCidr = Math.min(cidr + bitsNeeded, 30); // Limited to 30 to allow at least 2 hosts
   
   // Calcula o endereço de rede do IP original
   const subnetMask = cidrToSubnetMask(cidr);

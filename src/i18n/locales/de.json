@@ -1,7 +1,50 @@
 {
+  "title": "IP und Subnetz-Rechner",
+  "language": "Sprache",
+  "ipAddress": "IP-Adresse",
+  "subnetMask": "Subnetzmaske",
+  "cidr": "CIDR", 
+  "calculate": "Berechnen",
+  "results": {
+    "networkAddress": "Netzwerkadresse",
+    "broadcastAddress": "Broadcast-Adresse",
+    "firstValidHost": "Erster gültiger Host",
+    "lastValidHost": "Letzter gültiger Host",
+    "totalHosts": "Gesamtzahl der Hosts",
+    "usableHosts": "Nutzbare Hosts",
+    "subnetBits": "Subnetz-Bits",
+    "hostBits": "Host-Bits",
+    "binarySubnetMask": "Subnetzmaske (Binär)",
+    "binaryIpAddress": "IP-Adresse (Binär)",
+    "binaryNetworkAddress": "Netzwerkadresse (Binär)",
+    "binaryRepresentation": "Binäre Darstellung",
+    "wildcardMask": "Wildcard-Maske"
+  },
+  "subnetting": {
+    "title": "Subnetz-Aufteilung",
+    "subnetCount": "Anzahl der Subnetze",
+    "hostsPerSubnet": "Hosts pro Subnetz",
+    "generate": "Subnetze generieren",
+    "subnetList": "Subnetz-Liste",
+    "subnet": "Subnetz",
+    "range": "Bereich",
+    "usable": "Nutzbar"
+  },
+  "validation": {
+    "invalidIp": "Ungültige IP-Adresse",
+    "ipRequired": "IP-Adresse ist erforderlich",
+    "enterValidIp": "Bitte geben Sie eine gültige IP-Adresse ein",
+    "minimum": "Minimum: {value}",
+    "maximum": "Maximum: {value}"
+  },
+  "theme": {
+    "light": "Hell",
+    "dark": "Dunkel",
+    "system": "System"
+  },
   "networkTools": {
     "title": "Netzwerk-Tools",
-    "disclaimer": "Hinweis: Dies ist eine clientseitige Implementierung, die durch die Browserumgebung eingeschränkt ist. Für vollständige und genaue Netzwerkdiagnosen wird empfohlen, diese Funktionen über ein Backend mit den erforderlichen Berechtigungen zu implementieren.",
+    "disclaimer": "",
     "legalWarning": "Wichtig: Das Scannen von Ports auf Systemen, die nicht Ihnen gehören, kann in einigen Ländern illegal sein. Verwenden Sie diese Tools nur auf Ihren eigenen Systemen oder mit ausdrücklicher Erlaubnis.",
     "ping": {
       "title": "Ping",
@@ -17,6 +60,7 @@
       "hostNotFound": "Host nicht gefunden oder hat nicht geantwortet",
       "history": "Ping-Verlauf",
       "timestamp": "Zeit",
+      "networkInfo": "Netzwerkinformationen",
       "ipSweep": "IP-Scan",
       "ipRange": "IP-Bereich",
       "startIp": "Start-IP",

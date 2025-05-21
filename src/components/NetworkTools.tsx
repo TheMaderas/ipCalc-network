@@ -58,12 +58,12 @@ interface TabPanelProps {
   value: number;
 }
 
-// Versão simplificada do TabPanel que evita problemas com offsetHeight
+// Simplified version of TabPanel that avoids offsetHeight problems
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
-  // Em vez de usar null, render um elemento oculto (display: none)
-  // Isso evita que o React monte/desmonte elementos, o que pode causar problemas com offsetHeight
+  // Instead of using null, render a hidden element (display: none)
+  // This prevents React from mounting/unmounting elements, which can cause issues with offsetHeight
   return (
     <div
       role="tabpanel"
@@ -77,7 +77,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-// Função auxiliar para acessibilidade das tabs
+// Helper function for tab accessibility
 function a11yProps(index: number) {
   return {
     id: `network-tab-${index}`,
@@ -85,9 +85,9 @@ function a11yProps(index: number) {
   };
 }
 
-// Componente Tooltip modificado para evitar problemas de offsetHeight
+// Modified Tooltip component to avoid offsetHeight problems
 function SafeTooltip({ children, title, ...props }: React.ComponentProps<typeof Tooltip>) {
-  // Não usar tooltips dinâmicos, pois podem causar problemas de layout
+  // Don't use dynamic tooltips as they may cause layout problems
   return (
     <div className="tooltip-container" style={{ display: 'inline-block' }}>
       {children}
@@ -121,39 +121,39 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
   const [scanResults, setScanResults] = useState<PingResult[]>([]);
   const [ipScanError, setIpScanError] = useState('');
   
-  // Efeito para forçar o recálculo de layout
+  // Effect to force layout recalculation
   useEffect(() => {
-    // Este é um hack que força um reflow completo na página
+    // This is a hack that forces a complete reflow of the page
     const timer = setTimeout(() => {
       const body = document.body;
       if (body) {
-        // Forçar um reflow no corpo da página
+        // Force a reflow on the page body
         // eslint-disable-next-line no-unused-expressions
         body.offsetHeight;
       }
     }, 300);
     
     return () => clearTimeout(timer);
-  }, [tabValue]); // Recalcular quando o tab mudar
+  }, [tabValue]); // Recalculate when the tab changes
   
-  // State para o CIDR - definido antes de ser usado em updateNetworkInfo
+  // State for CIDR - defined before being used in updateNetworkInfo
   const [cidrValue, setCidrValue] = useState(24);
   
-  // Função para atualizar informações de rede sem executar ping
+  // Function to update network information without executing ping
   const updateNetworkInfo = useCallback((cidr: number) => {
     if (ip && isValidIP(ip)) {
       setIpInfo(calculateIPInfo(ip, cidr));
     }
   }, [ip]);
   
-  // Efeito para atualizar informações de rede quando o IP mudar
+  // Effect to update network information when the IP changes
   useEffect(() => {
     if (ip && isValidIP(ip)) {
       updateNetworkInfo(cidrValue);
     }
   }, [ip, cidrValue, updateNetworkInfo]);
   
-  // Função para atualizar o CIDR e recalcular informações de rede
+  // Function to update CIDR and recalculate network information
   const handleCidrChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newCidr = parseInt(event.target.value, 10);
     if (newCidr >= 1 && newCidr <= 32) {
@@ -499,14 +499,11 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
           </Typography>
         </Box>
 
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
-          {(t as any)('networkTools.disclaimer')}
-        </Typography>
         <Typography variant="body2" color="error.main" sx={{ mb: 2, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
           {(t as any)('networkTools.legalWarning')}
         </Typography>
 
-        {/* Substituição para os Tabs que causam problemas */}
+        {/* Replacement for tabs to avoid offsetHeight problems */}
         <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, pb: 1 }}>
             <Button
@@ -557,7 +554,7 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
             <Grid item xs={12} sm={4}>
               <Box>
                 <TextField
-                  label="CIDR"
+                  label={(t as any)('cidr')}
                   type="number"
                   InputProps={{
                     startAdornment: <span style={{ marginRight: 8 }}>/</span>,
@@ -598,50 +595,53 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
           {ipInfo && (
             <Paper elevation={2} sx={{ p: 2, mt: 3 }}>
               <Typography variant="h6" gutterBottom>
-                {(t as any)('networkTools.ping.networkInfo') || 'Informações de Rede'}
+                {(t as any)('networkTools.ping.networkInfo')}
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <Typography variant="body1">
-                    <strong>Endereço IP:</strong> {ip}
+                    <strong>{(t as any)('ipAddress')}:</strong> {ip}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Typography variant="body1">
-                    <strong>Máscara de Sub-rede:</strong> {ipInfo.subnetMask}
+                    <strong>{(t as any)('subnetMask')}:</strong> {ipInfo.subnetMask}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Typography variant="body1">
-                    <strong>Endereço de Rede:</strong> {ipInfo.networkAddress}
+                    <strong>{(t as any)('results.networkAddress')}:</strong> {ipInfo.networkAddress}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Typography variant="body1">
-                    <strong>CIDR:</strong> /{ipInfo.cidr}
+                    <strong>{(t as any)('cidr')}:</strong> /{ipInfo.cidr}
                   </Typography>
                 </Grid>
                 
-                {/* Representações binárias */}
+                {/* Binary representations */}
                 <Grid item xs={12}>
                   <Divider sx={{ my: 1 }} />
                   <Typography variant="subtitle1" gutterBottom>
-                    <strong>Representação Binária</strong>
+                    <strong>{(t as any)('results.binaryRepresentation')}</strong>
                   </Typography>
                 </Grid>
                 
                 <Grid item xs={12}>
                   <Typography variant="body1">
-                    <strong>IP (binário):</strong>
+                    <strong>{(t as any)('results.binaryIpAddress')}:</strong>
                   </Typography>
                   <Box sx={{ 
-                    backgroundColor: '#f5f5f5', 
+                    bgcolor: 'background.paper', 
+                    border: 1,
+                    borderColor: 'divider',
                     p: 1, 
                     borderRadius: 1, 
                     overflowX: 'auto',
                     fontFamily: 'monospace',
                     fontSize: '0.9rem',
-                    letterSpacing: '1px'
+                    letterSpacing: '1px',
+                    color: 'text.primary',
                   }}>
                     {ipInfo.binaryIpAddress}
                   </Box>
@@ -649,16 +649,19 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
                 
                 <Grid item xs={12}>
                   <Typography variant="body1">
-                    <strong>Máscara de Sub-rede (binário):</strong>
+                    <strong>{(t as any)('results.binarySubnetMask')}:</strong>
                   </Typography>
                   <Box sx={{ 
-                    backgroundColor: '#f5f5f5', 
+                    bgcolor: 'background.paper',
+                    border: 1,
+                    borderColor: 'divider', 
                     p: 1, 
                     borderRadius: 1, 
                     overflowX: 'auto',
                     fontFamily: 'monospace',
                     fontSize: '0.9rem',
-                    letterSpacing: '1px'
+                    letterSpacing: '1px',
+                    color: 'text.primary',
                   }}>
                     {ipInfo.binarySubnetMask}
                   </Box>
@@ -666,16 +669,19 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
                 
                 <Grid item xs={12}>
                   <Typography variant="body1">
-                    <strong>Endereço de Rede (binário):</strong>
+                    <strong>{(t as any)('results.binaryNetworkAddress')}:</strong>
                   </Typography>
                   <Box sx={{ 
-                    backgroundColor: '#f5f5f5', 
+                    bgcolor: 'background.paper',
+                    border: 1,
+                    borderColor: 'divider', 
                     p: 1, 
                     borderRadius: 1, 
                     overflowX: 'auto',
                     fontFamily: 'monospace',
                     fontSize: '0.9rem',
-                    letterSpacing: '1px'
+                    letterSpacing: '1px',
+                    color: 'text.primary',
                   }}>
                     {ipInfo.binaryNetworkAddress}
                   </Box>
@@ -686,27 +692,27 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Typography variant="body1">
-                    <strong>Endereço de Broadcast:</strong> {ipInfo.broadcastAddress}
+                    <strong>{(t as any)('results.broadcastAddress')}:</strong> {ipInfo.broadcastAddress}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Typography variant="body1">
-                    <strong>Primeiro Host:</strong> {ipInfo.firstValidHost}
+                    <strong>{(t as any)('results.firstValidHost')}:</strong> {ipInfo.firstValidHost}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Typography variant="body1">
-                    <strong>Último Host:</strong> {ipInfo.lastValidHost}
+                    <strong>{(t as any)('results.lastValidHost')}:</strong> {ipInfo.lastValidHost}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Typography variant="body1">
-                    <strong>Total de Hosts:</strong> {ipInfo.totalHosts.toLocaleString()}
+                    <strong>{(t as any)('results.totalHosts')}:</strong> {ipInfo.totalHosts.toLocaleString()}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Typography variant="body1">
-                    <strong>Hosts Utilizáveis:</strong> {ipInfo.usableHosts.toLocaleString()}
+                    <strong>{(t as any)('results.usableHosts')}:</strong> {ipInfo.usableHosts.toLocaleString()}
                   </Typography>
                 </Grid>
               </Grid>
@@ -715,20 +721,276 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
         </TabPanel>
 
         <TabPanel value={tabValue} index={1}>
-          {/* Conteúdo para a tab de escaneamento de portas */}
-          <Typography variant="h6">
+          {/* Content for port scanning tab */}
+          <Typography variant="h6" gutterBottom>
             {(t as any)('networkTools.portScan.title')}
           </Typography>
+          
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <FormControl fullWidth>
+                <InputLabel id="common-ports-label">{(t as any)('networkTools.portScan.commonPorts')}</InputLabel>
+                <Select
+                  labelId="common-ports-label"
+                  multiple
+                  value={selectedPorts}
+                  onChange={handlePortChange}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {(selected as number[]).map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={{
+                    PaperProps: {
+                      style: {
+                        maxHeight: 48 * 4.5,
+                        width: 250,
+                      },
+                    },
+                  }}
+                >
+                  {commonPorts.map((port) => (
+                    <MenuItem key={port.port} value={port.port}>
+                      {port.port} - {port.service}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                <TextField
+                  label={(t as any)('networkTools.portScan.customPort')}
+                  type="number"
+                  value={customPort}
+                  onChange={(e) => setCustomPort(e.target.value === '' ? '' : Number(e.target.value))}
+                  error={!!portError}
+                  helperText={portError}
+                  InputProps={{ inputProps: { min: 1, max: 65535 } }}
+                  fullWidth
+                />
+                <Button 
+                  variant="outlined" 
+                  onClick={handleAddCustomPort}
+                  sx={{ height: 56 }}
+                >
+                  {(t as any)('networkTools.portScan.add')}
+                </Button>
+              </Box>
+            </Grid>
+            
+            <Grid item xs={12}>
+              <Button 
+                variant="contained" 
+                color="primary" 
+                startIcon={<PortableWifiOffIcon />} 
+                onClick={handleCheckPorts} 
+                disabled={isCheckingPorts || selectedPorts.length === 0}
+                fullWidth
+              >
+                {(t as any)('networkTools.portScan.checkPorts')}
+              </Button>
+            </Grid>
+          </Grid>
+          
+          {isCheckingPorts && <LinearProgress sx={{ mt: 2 }} />}
+          
+          {portResults.length > 0 && (
+            <TableContainer component={Paper} sx={{ mt: 3 }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>{(t as any)('networkTools.portScan.port')}</TableCell>
+                    <TableCell>{(t as any)('networkTools.portScan.service')}</TableCell>
+                    <TableCell>{(t as any)('networkTools.portScan.status')}</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {portResults.map((result) => (
+                    <TableRow key={result.port}>
+                      <TableCell>{result.port}</TableCell>
+                      <TableCell>
+                        {commonPorts.find(p => p.port === result.port)?.service || (t as any)('networkTools.portScan.unknown')}
+                      </TableCell>
+                      <TableCell>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          {getStatusIcon(result.status)}
+                          <Typography sx={{ ml: 1 }}>
+                            {(t as any)(`networkTools.portScan.${result.status}`)}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer> 
+          )}
+          
+          {portHistory.length > 0 && (
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                {(t as any)('networkTools.portScan.history')}
+              </Typography>
+              
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>IP</TableCell>
+                      <TableCell>{(t as any)('networkTools.ping.timestamp')}</TableCell>
+                      <TableCell>{(t as any)('networkTools.portScan.portsChecked')}</TableCell>
+                      <TableCell>{(t as any)('networkTools.portScan.openPorts')}</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {portHistory.map((history, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{history.ip}</TableCell>
+                        <TableCell>{history.timestamp.toLocaleString()}</TableCell>
+                        <TableCell>{history.ports.length}</TableCell>
+                        <TableCell>{history.ports.filter(p => p.status === 'open').length}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+          )}
         </TabPanel>
 
         <TabPanel value={tabValue} index={2}>
-          {/* Conteúdo para a tab de IP Sweep */}
-          <Typography variant="h6">
+          {/* Content for IP Sweep tab */}
+          <Typography variant="h6" gutterBottom>
             {(t as any)('networkTools.ping.ipSweep')}
           </Typography>
+          
+          <Grid container spacing={2}>
+            {/* IP Range inputs */}
+            <Grid item xs={12} md={6}>
+              <TextField
+                label={(t as any)('networkTools.ping.startIp')}
+                value={startIp}
+                onChange={(e) => setStartIp(e.target.value)}
+                fullWidth
+                error={!!ipScanError && !startIp}
+                margin="normal"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label={(t as any)('networkTools.ping.endIp')}
+                value={endIp}
+                onChange={(e) => setEndIp(e.target.value)}
+                fullWidth
+                error={!!ipScanError && !endIp}
+                margin="normal"
+              />
+            </Grid>
+            
+            {/* Action buttons */}
+            <Grid item xs={12} md={6}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<NetworkCheckIcon />}
+                onClick={handleScanSubnet}
+                disabled={isScanning || !ip}
+                fullWidth
+                sx={{ mt: 2 }}
+              >
+                {(t as any)('networkTools.ping.scanSubnet')}
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<NetworkCheckIcon />}
+                onClick={handleIpRangeScan}
+                disabled={isScanning || !startIp || !endIp}
+                fullWidth
+                sx={{ mt: 2 }}
+              >
+                {(t as any)('networkTools.ping.scanRange')}
+              </Button>
+            </Grid>
+            
+            {/* Error display */}
+            {ipScanError && (
+              <Grid item xs={12}>
+                <Alert severity="error" sx={{ mt: 2 }}>
+                  {ipScanError}
+                </Alert>
+              </Grid>
+            )}
+            
+            {/* Scan progress indicator */}
+            {isScanning && (
+              <Grid item xs={12}>
+                <LinearProgress sx={{ mt: 2 }} />
+              </Grid>
+            )}
+            
+            {/* Scan results */}
+            {scanResults.length > 0 && (
+              <Grid item xs={12}>
+                <Paper elevation={2} sx={{ p: 2, mt: 3 }}>
+                  <Typography variant="h6" gutterBottom>
+                    {(t as any)('networkTools.ping.hostsFound')}
+                  </Typography>
+                  
+                  <Box sx={{ mb: 2 }}>
+                    <Typography variant="body1">
+                      <strong>{(t as any)('networkTools.ping.hostsUp')}:</strong> {scanResults.filter(r => r.status === 'success').length}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>{(t as any)('networkTools.ping.hostsDown')}:</strong> {scanResults.filter(r => r.status !== 'success').length}
+                    </Typography>
+                  </Box>
+                  
+                  <TableContainer component={Paper}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>{(t as any)('ipAddress')}</TableCell>
+                          <TableCell>{(t as any)('networkTools.ping.status')}</TableCell>
+                          <TableCell>{(t as any)('networkTools.ping.time')}</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {scanResults.map((result, index) => (
+                          <TableRow key={index}>
+                            <TableCell>{result.ip}</TableCell>
+                            <TableCell>
+                              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                {getStatusIcon(result.status)}
+                                <Typography sx={{ ml: 1 }}>
+                                  {result.status === 'success' 
+                                    ? (t as any)('networkTools.ping.success') 
+                                    : (t as any)('networkTools.ping.failure')
+                                  }
+                                </Typography>
+                              </Box>
+                            </TableCell>
+                            <TableCell>
+                              {result.time ? `${result.time} ms` : '-'}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Paper>
+              </Grid>
+            )}
+          </Grid>
         </TabPanel>
         
-        {/* Usando div em vez do Snackbar que pode causar problemas */}
+        {/* Using div instead of Snackbar which can cause problems */}
         {snackbarOpen && (
           <div 
             style={{
