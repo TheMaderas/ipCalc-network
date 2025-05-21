@@ -36,6 +36,8 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ErrorIcon from '@mui/icons-material/Error';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { 
   pingHost, 
   checkMultiplePorts, 
@@ -47,6 +49,7 @@ import {
   commonPorts 
 } from '../utils/networkUtils';
 import { calculateIPInfo, isValidIP } from '../utils/ipUtils';
+import CollapsibleSection from './CollapsibleSection';
 
 interface NetworkToolsProps {
   ip: string;
@@ -573,11 +576,12 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
 
           {/* Show ping results if available */}
           {pingResult && (
-            <Paper elevation={2} sx={{ p: 2, mt: 3 }}>
-              <Typography variant="h6" gutterBottom>
-                {(t as any)('networkTools.ping.result')}
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', mb: 2 }}>
+            <CollapsibleSection 
+              title={(t as any)('networkTools.ping.result')}
+              defaultExpanded={true}
+              elevation={2}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', mb: 1 }}>
                 <Typography variant="subtitle1" sx={{ mr: 1 }}>
                   {(t as any)('networkTools.ping.status')}:
                 </Typography>
@@ -588,15 +592,16 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
                   variant="outlined"
                 />
               </Box>
-            </Paper>
+            </CollapsibleSection>
           )}
           
           {/* Network Information - display regardless of ping status */}
           {ipInfo && (
-            <Paper elevation={2} sx={{ p: 2, mt: 3 }}>
-              <Typography variant="h6" gutterBottom>
-                {(t as any)('networkTools.ping.networkInfo')}
-              </Typography>
+            <CollapsibleSection 
+              title={(t as any)('networkTools.ping.networkInfo')} 
+              defaultExpanded={true}
+              elevation={2}
+            >
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <Typography variant="body1">
@@ -622,101 +627,113 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
                 {/* Binary representations */}
                 <Grid item xs={12}>
                   <Divider sx={{ my: 1 }} />
-                  <Typography variant="subtitle1" gutterBottom>
-                    <strong>{(t as any)('results.binaryRepresentation')}</strong>
-                  </Typography>
-                </Grid>
-                
-                <Grid item xs={12}>
-                  <Typography variant="body1">
-                    <strong>{(t as any)('results.binaryIpAddress')}:</strong>
-                  </Typography>
-                  <Box sx={{ 
-                    bgcolor: 'background.paper', 
-                    border: 1,
-                    borderColor: 'divider',
-                    p: 1, 
-                    borderRadius: 1, 
-                    overflowX: 'auto',
-                    fontFamily: 'monospace',
-                    fontSize: '0.9rem',
-                    letterSpacing: '1px',
-                    color: 'text.primary',
-                  }}>
-                    {ipInfo.binaryIpAddress}
-                  </Box>
-                </Grid>
-                
-                <Grid item xs={12}>
-                  <Typography variant="body1">
-                    <strong>{(t as any)('results.binarySubnetMask')}:</strong>
-                  </Typography>
-                  <Box sx={{ 
-                    bgcolor: 'background.paper',
-                    border: 1,
-                    borderColor: 'divider', 
-                    p: 1, 
-                    borderRadius: 1, 
-                    overflowX: 'auto',
-                    fontFamily: 'monospace',
-                    fontSize: '0.9rem',
-                    letterSpacing: '1px',
-                    color: 'text.primary',
-                  }}>
-                    {ipInfo.binarySubnetMask}
-                  </Box>
-                </Grid>
-                
-                <Grid item xs={12}>
-                  <Typography variant="body1">
-                    <strong>{(t as any)('results.binaryNetworkAddress')}:</strong>
-                  </Typography>
-                  <Box sx={{ 
-                    bgcolor: 'background.paper',
-                    border: 1,
-                    borderColor: 'divider', 
-                    p: 1, 
-                    borderRadius: 1, 
-                    overflowX: 'auto',
-                    fontFamily: 'monospace',
-                    fontSize: '0.9rem',
-                    letterSpacing: '1px',
-                    color: 'text.primary',
-                  }}>
-                    {ipInfo.binaryNetworkAddress}
-                  </Box>
+                  <CollapsibleSection 
+                    title={(t as any)('results.binaryRepresentation')} 
+                    defaultExpanded={false}
+                    elevation={0}
+                    marginTop={1}
+                    titleVariant="subtitle1"
+                  >
+                    <Box sx={{ mt: 1 }}>
+                      <Typography variant="body1">
+                        <strong>{(t as any)('results.binaryIpAddress')}:</strong>
+                      </Typography>
+                      <Box sx={{ 
+                        bgcolor: 'background.paper', 
+                        border: 1,
+                        borderColor: 'divider',
+                        p: 1, 
+                        borderRadius: 1, 
+                        overflowX: 'auto',
+                        fontFamily: 'monospace',
+                        fontSize: '0.9rem',
+                        letterSpacing: '1px',
+                        color: 'text.primary',
+                      }}>
+                        {ipInfo.binaryIpAddress}
+                      </Box>
+                    
+                      <Typography variant="body1" sx={{ mt: 2 }}>
+                        <strong>{(t as any)('results.binarySubnetMask')}:</strong>
+                      </Typography>
+                      <Box sx={{ 
+                        bgcolor: 'background.paper',
+                        border: 1,
+                        borderColor: 'divider', 
+                        p: 1, 
+                        borderRadius: 1, 
+                        overflowX: 'auto',
+                        fontFamily: 'monospace',
+                        fontSize: '0.9rem',
+                        letterSpacing: '1px',
+                        color: 'text.primary',
+                      }}>
+                        {ipInfo.binarySubnetMask}
+                      </Box>
+                    
+                      <Typography variant="body1" sx={{ mt: 2 }}>
+                        <strong>{(t as any)('results.binaryNetworkAddress')}:</strong>
+                      </Typography>
+                      <Box sx={{ 
+                        bgcolor: 'background.paper',
+                        border: 1,
+                        borderColor: 'divider', 
+                        p: 1, 
+                        borderRadius: 1, 
+                        overflowX: 'auto',
+                        fontFamily: 'monospace',
+                        fontSize: '0.9rem',
+                        letterSpacing: '1px',
+                        color: 'text.primary',
+                      }}>
+                        {ipInfo.binaryNetworkAddress}
+                      </Box>
+                    </Box>
+                  </CollapsibleSection>
                 </Grid>
                 
                 <Grid item xs={12}>
                   <Divider sx={{ my: 1 }} />
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="body1">
-                    <strong>{(t as any)('results.broadcastAddress')}:</strong> {ipInfo.broadcastAddress}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="body1">
-                    <strong>{(t as any)('results.firstValidHost')}:</strong> {ipInfo.firstValidHost}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="body1">
-                    <strong>{(t as any)('results.lastValidHost')}:</strong> {ipInfo.lastValidHost}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="body1">
-                    <strong>{(t as any)('results.totalHosts')}:</strong> {ipInfo.totalHosts.toLocaleString()}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="body1">
-                    <strong>{(t as any)('results.usableHosts')}:</strong> {ipInfo.usableHosts.toLocaleString()}
-                  </Typography>
+                <Grid item xs={12}>
+                  <CollapsibleSection 
+                    title={(t as any)('results.hostInformation')} 
+                    defaultExpanded={true}
+                    elevation={0}
+                    marginTop={1}
+                    titleVariant="subtitle1"
+                  >
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="body1">
+                          <strong>{(t as any)('results.broadcastAddress')}:</strong> {ipInfo.broadcastAddress}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="body1">
+                          <strong>{(t as any)('results.firstValidHost')}:</strong> {ipInfo.firstValidHost}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="body1">
+                          <strong>{(t as any)('results.lastValidHost')}:</strong> {ipInfo.lastValidHost}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="body1">
+                          <strong>{(t as any)('results.totalHosts')}:</strong> {ipInfo.totalHosts.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="body1">
+                          <strong>{(t as any)('results.usableHosts')}:</strong> {ipInfo.usableHosts.toLocaleString()}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </CollapsibleSection>
                 </Grid>
               </Grid>
-            </Paper>
+            </CollapsibleSection>
           )}
         </TabPanel>
 
@@ -799,44 +816,52 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
           {isCheckingPorts && <LinearProgress sx={{ mt: 2 }} />}
           
           {portResults.length > 0 && (
-            <TableContainer component={Paper} sx={{ mt: 3 }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>{(t as any)('networkTools.portScan.port')}</TableCell>
-                    <TableCell>{(t as any)('networkTools.portScan.service')}</TableCell>
-                    <TableCell>{(t as any)('networkTools.portScan.status')}</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {portResults.map((result) => (
-                    <TableRow key={result.port}>
-                      <TableCell>{result.port}</TableCell>
-                      <TableCell>
-                        {commonPorts.find(p => p.port === result.port)?.service || (t as any)('networkTools.portScan.unknown')}
-                      </TableCell>
-                      <TableCell>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          {getStatusIcon(result.status)}
-                          <Typography sx={{ ml: 1 }}>
-                            {(t as any)(`networkTools.portScan.${result.status}`)}
-                          </Typography>
-                        </Box>
-                      </TableCell>
+            <CollapsibleSection
+              title={(t as any)('networkTools.portScan.results')}
+              defaultExpanded={true}
+              elevation={2}
+              marginTop={3}
+            >
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>{(t as any)('networkTools.portScan.port')}</TableCell>
+                      <TableCell>{(t as any)('networkTools.portScan.service')}</TableCell>
+                      <TableCell>{(t as any)('networkTools.portScan.status')}</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer> 
+                  </TableHead>
+                  <TableBody>
+                    {portResults.map((result) => (
+                      <TableRow key={result.port}>
+                        <TableCell>{result.port}</TableCell>
+                        <TableCell>
+                          {commonPorts.find(p => p.port === result.port)?.service || (t as any)('networkTools.portScan.unknown')}
+                        </TableCell>
+                        <TableCell>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            {getStatusIcon(result.status)}
+                            <Typography sx={{ ml: 1 }}>
+                              {(t as any)(`networkTools.portScan.${result.status}`)}
+                            </Typography>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer> 
+            </CollapsibleSection>
           )}
           
           {portHistory.length > 0 && (
-            <Box sx={{ mt: 3 }}>
-              <Typography variant="h6" gutterBottom>
-                {(t as any)('networkTools.portScan.history')}
-              </Typography>
-              
-              <TableContainer component={Paper}>
+            <CollapsibleSection
+              title={(t as any)('networkTools.portScan.history')}
+              defaultExpanded={false}
+              elevation={2}
+              marginTop={3}
+            >
+              <TableContainer>
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -858,7 +883,7 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
                   </TableBody>
                 </Table>
               </TableContainer>
-            </Box>
+            </CollapsibleSection>
           )}
         </TabPanel>
 
@@ -938,11 +963,12 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
             {/* Scan results */}
             {scanResults.length > 0 && (
               <Grid item xs={12}>
-                <Paper elevation={2} sx={{ p: 2, mt: 3 }}>
-                  <Typography variant="h6" gutterBottom>
-                    {(t as any)('networkTools.ping.hostsFound')}
-                  </Typography>
-                  
+                <CollapsibleSection
+                  title={(t as any)('networkTools.ping.hostsFound')}
+                  defaultExpanded={true}
+                  elevation={2}
+                  marginTop={3}
+                >
                   <Box sx={{ mb: 2 }}>
                     <Typography variant="body1">
                       <strong>{(t as any)('networkTools.ping.hostsUp')}:</strong> {scanResults.filter(r => r.status === 'success').length}
@@ -952,7 +978,7 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
                     </Typography>
                   </Box>
                   
-                  <TableContainer component={Paper}>
+                  <TableContainer>
                     <Table>
                       <TableHead>
                         <TableRow>
@@ -984,7 +1010,7 @@ const NetworkTools: React.FC<NetworkToolsProps> = ({ ip }) => {
                       </TableBody>
                     </Table>
                   </TableContainer>
-                </Paper>
+                </CollapsibleSection>
               </Grid>
             )}
           </Grid>

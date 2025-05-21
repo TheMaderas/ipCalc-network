@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Card,
@@ -11,7 +11,10 @@ import {
   IconButton,
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { IPResult } from '../utils/ipUtils';
+import CollapsibleSection from './CollapsibleSection';
 
 interface ResultCardProps {
   result: IPResult;
@@ -114,62 +117,85 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
         
         <Divider sx={{ my: 2 }} />
         
-        <Box sx={{ mt: 2 }}>
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-              {(t as any)('results.binarySubnetMask')}:
-            </Typography>
-            <Grid container spacing={1}>
-              <Grid item xs={11}>
-                <Typography 
-                  variant="body1" 
-                  fontFamily="monospace" 
-                  sx={{ wordBreak: 'break-word' }}
-                >
-                  {result.binarySubnetMask}
-                </Typography>
-              </Grid>
-              <Grid item xs={1}>
-                <Tooltip title={(t as any)('copy')}>
-                  <IconButton
-                    size="small"
-                    onClick={() => copyToClipboard(result.binarySubnetMask)}
-                    aria-label={(t as any)('copy')}
+        <CollapsibleSection
+          title={(t as any)('results.binaryRepresentation')}
+          defaultExpanded={false}
+          elevation={0}
+          marginTop={0}
+        >
+          <Box sx={{ mt: 2 }}>
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+                {(t as any)('results.binarySubnetMask')}:
+              </Typography>
+              <Grid container spacing={1}>
+                <Grid item xs={11}>
+                  <Typography 
+                    variant="body1" 
+                    fontFamily="monospace" 
+                    sx={{ 
+                      wordBreak: 'break-word',
+                      bgcolor: 'background.paper',
+                      border: 1,
+                      borderColor: 'divider',
+                      p: 1,
+                      borderRadius: 1,
+                      color: 'text.primary'
+                    }}
                   >
-                    <ContentCopyIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
+                    {result.binarySubnetMask}
+                  </Typography>
+                </Grid>
+                <Grid item xs={1}>
+                  <Tooltip title={(t as any)('copy')}>
+                    <IconButton
+                      size="small"
+                      onClick={() => copyToClipboard(result.binarySubnetMask)}
+                      aria-label={(t as any)('copy')}
+                    >
+                      <ContentCopyIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
               </Grid>
-            </Grid>
-          </Box>
-          <Box sx={{ mb: 1 }}>
-            <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-              {(t as any)('results.wildcardMask')}:
-            </Typography>
-            <Grid container spacing={1}>
-              <Grid item xs={11}>
-                <Typography 
-                  variant="body1" 
-                  fontFamily="monospace" 
-                  sx={{ wordBreak: 'break-word' }}
-                >
-                  {result.wildcardMask}
-                </Typography>
-              </Grid>
-              <Grid item xs={1}>
-                <Tooltip title={(t as any)('copy')}>
-                  <IconButton
-                    size="small"
-                    onClick={() => copyToClipboard(result.wildcardMask)}
-                    aria-label={(t as any)('copy')}
+            </Box>
+            <Box sx={{ mb: 1 }}>
+              <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+                {(t as any)('results.wildcardMask')}:
+              </Typography>
+              <Grid container spacing={1}>
+                <Grid item xs={11}>
+                  <Typography 
+                    variant="body1" 
+                    fontFamily="monospace" 
+                    sx={{ 
+                      wordBreak: 'break-word',
+                      bgcolor: 'background.paper',
+                      border: 1,
+                      borderColor: 'divider',
+                      p: 1,
+                      borderRadius: 1,
+                      color: 'text.primary'
+                    }}
                   >
-                    <ContentCopyIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
+                    {result.wildcardMask}
+                  </Typography>
+                </Grid>
+                <Grid item xs={1}>
+                  <Tooltip title={(t as any)('copy')}>
+                    <IconButton
+                      size="small"
+                      onClick={() => copyToClipboard(result.wildcardMask)}
+                      aria-label={(t as any)('copy')}
+                    >
+                      <ContentCopyIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
+        </CollapsibleSection>
       </CardContent>
     </Card>
   );

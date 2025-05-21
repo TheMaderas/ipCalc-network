@@ -96,7 +96,7 @@ export const pingHost = async (ip: string): Promise<PingResult> => {
     return {
       ip,
       status: 'error',
-      error: error instanceof Error ? error.message : 'Erro desconhecido'
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 };

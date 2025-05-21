@@ -18,7 +18,8 @@
     "binaryIpAddress": "Endereço IP (binário)",
     "binaryNetworkAddress": "Endereço de Rede (binário)",
     "binaryRepresentation": "Representação Binária",
-    "wildcardMask": "Máscara Wildcard"
+    "wildcardMask": "Máscara Wildcard",
+    "hostInformation": "Informações de Host"
   },
   "subnetting": {
     "title": "Divisão em Sub-redes",
@@ -107,6 +108,7 @@
       "history": "Histórico de Verificações de Porta",
       "portsChecked": "Portas Verificadas",
       "openPorts": "Portas Abertas",
+      "results": "Resultados da Verificação",
       "invalidPort": "Porta inválida",
       "portRangeError": "A porta deve estar entre 1 e 65535",
       "portAlreadyAdded": "Esta porta já foi adicionada",
