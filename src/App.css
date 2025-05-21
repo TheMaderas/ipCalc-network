@@ -1,0 +1,50 @@
+.App {
+  text-align: center;
+}
+
+/* Transições suaves para mudança de tema */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Estilos para campos de destaque */
+.highlight {
+  background-color: rgba(25, 118, 210, 0.08);
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+/* Animação de fade-in para elementos */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Aplicar animação aos componentes principais */
+.card-animated {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Estilo para lista de redes */
+.subnet-list-item:hover {
+  background-color: rgba(25, 118, 210, 0.08);
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+  .result-container {
+    padding: 8px;
+  }
+}
+
+/* Melhorar visualização de dados de monospace */
+.monospace {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  letter-spacing: -0.5px;
+}
